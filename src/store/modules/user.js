@@ -2,7 +2,7 @@ import types from '../types'
 import api from '@oj/api'
 import storage from '@/utils/storage'
 import i18n from '@/i18n'
-import { STORAGE_KEY, USER_TYPE, PROBLEM_PERMISSION } from '@/utils/constants'
+import {STORAGE_KEY, USER_TYPE, PROBLEM_PERMISSION, QUIZ_PERMISSION} from '@/utils/constants'
 
 const state = {
   profile: {}
@@ -23,6 +23,9 @@ const getters = {
   },
   hasProblemPermission: (state, getters) => {
     return getters.user.problem_permission !== PROBLEM_PERMISSION.NONE
+  },
+  hasQuizPermission: (state, getters) => {
+    return getters.user.quiz_permission !== QUIZ_PERMISSION.NONE
   }
 }
 

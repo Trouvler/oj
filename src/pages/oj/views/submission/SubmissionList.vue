@@ -130,6 +130,33 @@
             }
           },
           {
+            title: this.$i18n.t('m.Quiz'),
+            align: 'center',
+            render: (h, params) => {
+              return h('span',
+                {
+                  style: {
+                    color: '#57a3f3',
+                    cursor: 'pointer'
+                  },
+                  on: {
+                    click: () => {
+                      if (this.contestID) {
+                        this.$router.push(
+                          {
+                            name: 'contest-quiz-details',
+                            params: {quizID: params.row.quiz, contestID: this.contestID}
+                          })
+                      } else {
+                        this.$router.push({name: 'quiz-details', params: {quizID: params.row.quiz}})
+                      }
+                    }
+                  }
+                },
+                params.row.quiz)
+            }
+          },
+          {
             title: this.$i18n.t('m.Time'),
             align: 'center',
             render: (h, params) => {
@@ -177,6 +204,7 @@
         page: 1,
         contestID: '',
         problemID: '',
+        quizID: '',
         routeName: '',
         JUDGE_STATUS: '',
         rejudge_column: false
@@ -194,6 +222,7 @@
         this.contestID = this.$route.params.contestID
         let query = this.$route.query
         this.problemID = query.problemID
+        this.quizID = query.quizID
         this.formFilter.myself = query.myself === '1'
         this.formFilter.result = query.result || ''
         this.formFilter.username = query.username || ''
@@ -216,6 +245,7 @@
         let params = this.buildQuery()
         params.contest_id = this.contestID
         params.problem_id = this.problemID
+        params.quiz_id = this.quizID
         let offset = (this.page - 1) * this.limit
         let func = this.contestID ? 'getContestSubmissionList' : 'getSubmissionList'
         this.loadingTable = true
@@ -237,6 +267,7 @@
         let query = utils.filterEmptyValue(this.buildQuery())
         query.contestID = this.contestID
         query.problemID = this.problemID
+        query.quizID = this.quizID
         let routeName = query.contestID ? 'contest-submission-list' : 'submission-list'
         this.$router.push({
           name: routeName,
@@ -300,6 +331,8 @@
           return this.$i18n.t('m.Status')
         } else if (this.problemID) {
           return this.$i18n.t('m.Problem_Submissions')
+        } else if (this.quizID) {
+          return this.$i18n.t('m.Quiz_Submissions')
         } else {
           return this.$i18n.t('m.Submissions')
         }

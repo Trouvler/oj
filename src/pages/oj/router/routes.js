@@ -11,6 +11,8 @@ import {
   OIRank,
   Problem,
   ProblemList,
+  Quiz,
+  QuizList,
   ResetPassword,
   SubmissionDetails,
   SubmissionList,
@@ -58,6 +60,18 @@ export default [
     component: Problem
   },
   {
+    name: 'quiz-list',
+    path: '/quiz',
+    meta: {title: 'Quiz List'},
+    component: QuizList
+  },
+  {
+    name: 'quiz-details',
+    path: '/quiz/:quizID',
+    meta: {title: 'Quiz Details'},
+    component: Quiz
+  },
+  {
     name: 'submission-list',
     path: '/status',
     meta: {title: 'Submission List'},
@@ -95,6 +109,16 @@ export default [
         name: 'contest-problem-details',
         path: 'problem/:problemID/',
         component: Problem
+      },
+      {
+        name: 'contest-quiz-list',
+        path: 'quizs',
+        component: Contest.ContestQuizList
+      },
+      {
+        name: 'contest-quiz-details',
+        path: 'quiz/:quizID/',
+        component: Quiz
       },
       {
         name: 'contest-announcement-list',

@@ -200,12 +200,24 @@
         this.addTableColumns(this.contestProblems)
         this.addChartCategory(this.contestProblems)
       }
+      if (this.contestQuizs.length === 0) {
+        this.getContestQuizs().then((res) => {
+          this.addTableColumns(res.data.data)
+          this.addChartCategory(res.data.data)
+        })
+      } else {
+        this.addTableColumns(this.contestQuizs)
+        this.addChartCategory(this.contestQuizs)
+      }
     },
     methods: {
-      ...mapActions(['getContestProblems']),
-      addChartCategory (contestProblems) {
+      ...mapActions(['getContestProblems', 'getContestQuiz']),
+      addChartCategory (contestProblems, contestQuizs) {
         let category = []
         for (let i = 0; i <= contestProblems.length; ++i) {
+          category.push(i)
+        }
+        for (let i = 0; i <= contestQuizs.length; ++i) {
           category.push(i)
         }
         this.options.yAxis[0].data = category

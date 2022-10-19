@@ -13,6 +13,7 @@ cd $base
 npm install --registry=https://registry.npm.taobao.org && \
 build_vendor_dll && \
 npm run build
+npm run dev
 
 if [ $? -ne 0 ]; then
     echo "Build error, please check node version and package.json"

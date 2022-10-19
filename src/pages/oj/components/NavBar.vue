@@ -10,6 +10,10 @@
         <Icon type="ios-keypad"></Icon>
         {{$t('m.NavProblems')}}
       </Menu-item>
+      <Menu-item name="/quiz">
+        <Icon type="ios-keypad"></Icon>
+        {{$t('m.NavQuizs')}}
+      </Menu-item>
       <Menu-item name="/contest">
         <Icon type="trophy"></Icon>
         {{$t('m.Contests')}}

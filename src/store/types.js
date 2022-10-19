@@ -18,6 +18,7 @@ export default keyMirror({
   'NOW_ADD_1S': null,
   'CHANGE_CONTEST': null,
   'CHANGE_CONTEST_PROBLEMS': null,
+  'CHANGE_CONTEST_QUIZS': null,
   'CHANGE_CONTEST_ITEM_VISIBLE': null,
   'CHANGE_RANK_FORCE_UPDATE': null,
   'CHANGE_CONTEST_RANK_LIMIT': null,

@@ -2,7 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 // 引入 view 组件
 import { Announcement, Conf, Contest, ContestList, Home, JudgeServer, Login,
-  Problem, ProblemList, User, PruneTestCase, Dashboard, ProblemImportOrExport } from './views'
+  Problem, ProblemList, Quiz, QuizList, User, PruneTestCase, Dashboard, ProblemImportOrExport, QuizImportOrExport } from './views'
 Vue.use(VueRouter)
 
 export default new VueRouter({
@@ -70,6 +70,26 @@ export default new VueRouter({
           component: ProblemImportOrExport
         },
         {
+          path: '/quiz',
+          name: 'quiz-list',
+          component: QuizList
+        },
+        {
+          path: '/quiz/create',
+          name: 'create-quiz',
+          component: Quiz
+        },
+        {
+          path: '/quiz/edit/:quizId',
+          name: 'edit-quiz',
+          component: Quiz
+        },
+        {
+          path: '/quiz/batch_ops',
+          name: 'quiz_batch_ops',
+          component: QuizImportOrExport
+        },
+        {
           path: '/contest/create',
           name: 'create-contest',
           component: Contest
@@ -103,6 +123,21 @@ export default new VueRouter({
           path: '/contest/:contestId/problem/:problemId/edit',
           name: 'edit-contest-problem',
           component: Problem
+        },
+        {
+          path: '/contest/:contestId/quiz',
+          name: 'contest-quiz-list',
+          component: QuizList
+        },
+        {
+          path: '/contest/:contestId/quiz/create',
+          name: 'create-contest-quiz',
+          component: Quiz
+        },
+        {
+          path: '/contest/:contestId/quiz/:quizId/edit',
+          name: 'edit-contest-quiz',
+          component: Quiz
         }
       ]
     },

@@ -46,7 +46,8 @@ export default {
     ...mapGetters(['isContestAdmin']),
     ...mapState({
       'contest': state => state.contest.contest,
-      'contestProblems': state => state.contest.contestProblems
+      'contestProblems': state => state.contest.contestProblems,
+      'contestQuizs': state => state.contest.contestQuizs
     }),
     showChart: {
       get () {

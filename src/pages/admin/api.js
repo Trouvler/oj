@@ -208,6 +208,11 @@ export default {
       params
     })
   },
+  getQuizTagList (params) {
+    return ajax('quiz/tags', 'get', {
+      params
+    })
+  },
   compileSPJ (data) {
     return ajax('admin/compile_spj', 'post', {
       data
@@ -232,6 +237,30 @@ export default {
   },
   getProblem (id) {
     return ajax('admin/problem', 'get', {
+      params: {
+        id
+      }
+    })
+  },
+  createQuiz (data) {
+    return ajax('admin/quiz', 'post', {
+      data
+    })
+  },
+  editQuiz (data) {
+    return ajax('admin/quiz', 'put', {
+      data
+    })
+  },
+  deleteQuiz (id) {
+    return ajax('admin/quiz', 'delete', {
+      params: {
+        id
+      }
+    })
+  },
+  getQuiz (id) {
+    return ajax('admin/quiz', 'get', {
       params: {
         id
       }
@@ -283,6 +312,52 @@ export default {
       data
     })
   },
+  getQuizList (params) {
+    params = utils.filterEmptyValue(params)
+    return ajax('admin/quiz', 'get', {
+      params
+    })
+  },
+  getContestQuizList (params) {
+    params = utils.filterEmptyValue(params)
+    return ajax('admin/contest/quiz', 'get', {
+      params
+    })
+  },
+  getContestQuiz (id) {
+    return ajax('admin/contest/quiz', 'get', {
+      params: {
+        id
+      }
+    })
+  },
+  createContestQuiz (data) {
+    return ajax('admin/contest/quiz', 'post', {
+      data
+    })
+  },
+  editContestQuiz (data) {
+    return ajax('admin/contest/quiz', 'put', {
+      data
+    })
+  },
+  deleteContestQuiz (id) {
+    return ajax('admin/contest/quiz', 'delete', {
+      params: {
+        id
+      }
+    })
+  },
+  makeContestQuizPublic (data) {
+    return ajax('admin/contest_quiz/make_public', 'post', {
+      data
+    })
+  },
+  addQuizFromPublic (data) {
+    return ajax('admin/contest/add_quiz_from_public', 'post', {
+      data
+    })
+  },
   getReleaseNotes () {
     return ajax('admin/versions', 'get')
   },
@@ -294,6 +369,11 @@ export default {
   },
   exportProblems (data) {
     return ajax('export_problem', 'post', {
+      data
+    })
+  },
+  exportQuizs (data) {
+    return ajax('export_quiz', 'post', {
       data
     })
   }
@@ -330,7 +410,7 @@ function ajax (url, method, options) {
       } else {
         resolve(res)
         if (method !== 'get') {
-          Vue.prototype.$success('Succeeded')
+          Vue.prototype.$success('admin Succeeded')
         }
       }
     }, res => {

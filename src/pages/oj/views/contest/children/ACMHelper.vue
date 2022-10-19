@@ -49,6 +49,11 @@
             key: 'problem_display_id'
           },
           {
+            title: this.$i18n.t('m.QuizID'),
+            align: 'center',
+            key: 'quiz_display_id'
+          },
+          {
             title: this.$i18n.t('m.First_Blood'),
             align: 'center',
             render: (h, {row}) => {
@@ -130,7 +135,8 @@
         ],
         acInfo: [],
         pagedAcInfo: [],
-        problemsMap: []
+        problemsMap: [],
+        quizsMap: []
       }
     },
     mounted () {
@@ -144,6 +150,15 @@
         this.mapProblemDisplayID()
         this.getACInfo()
       }
+      if (this.contestQuizs.length === 0) {
+        this.getContestQuizs().then((res) => {
+          this.mapQuizDisplayID()
+          this.getACInfo()
+        })
+      } else {
+        this.mapQuizDisplayID()
+        this.getACInfo()
+      }
     },
     methods: {
       ...mapActions(['getContestProblems']),
@@ -153,6 +168,13 @@
           problemsMap[ele.id] = ele._id
         })
         this.problemsMap = problemsMap
+      },
+      mapQuizDisplayID () {
+        let quizsMap = {}
+        this.contestQuizs.forEach(ele => {
+          quizsMap[ele.id] = ele._id
+        })
+        this.quizsMap = quizsMap
       },
       getACInfo (page = 1) {
         this.loadingTable = true
@@ -174,6 +196,7 @@
           rank_id: row.id,
           contest_id: this.contestID,
           problem_id: row.problem_id,
+          quiz_id: row.quiz_id,
           checked: true
         }
         api.updateACInfoCheckedStatus(data).then(res => {
@@ -206,6 +229,15 @@
             v.ac_time = moment(this.contest.start_time).add(v.ac_info.ac_time, 'seconds').local().format('YYYY-M-D  HH:mm:ss')
           }
         }
+        for (let v of pageInfo) {
+          if (v.init) {
+            continue
+          } else {
+            v.init = true
+            v.quiz_display_id = this.quizsMap[v.quiz_id]
+            v.ac_time = moment(this.contest.start_time).add(v.ac_info.ac_time, 'seconds').local().format('YYYY-M-D  HH:mm:ss')
+          }
+        }
         this.pagedAcInfo = pageInfo
         this.loadingTable = false
       }
@@ -213,7 +245,8 @@
     computed: {
       ...mapState({
         'contest': state => state.contest.contest,
-        'contestProblems': state => state.contest.contestProblems
+        'contestProblems': state => state.contest.contestProblems,
+        'contestQuizs': state => state.contest.contestQuizs
       }),
       limit: {
         get () {

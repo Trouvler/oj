@@ -113,9 +113,16 @@ export const PROBLEM_PERMISSION = {
   ALL: 'All'
 }
 
+export const QUIZ_PERMISSION = {
+  NONE: 'None',
+  OWN: 'Own',
+  ALL: 'All'
+}
+
 export const STORAGE_KEY = {
   AUTHED: 'authed',
   PROBLEM_CODE: 'problemCode',
+  QUIZ_CODE: 'quizCode',
   languages: 'languages'
 }
 
@@ -126,4 +133,10 @@ export function buildProblemCodeKey (problemID, contestID = null) {
   return `${STORAGE_KEY.PROBLEM_CODE}_NaN_${problemID}`
 }
 
+export function buildQuizCodeKey (quizID, contestID = null) {
+  if (contestID) {
+    return `${STORAGE_KEY.QUIZ_CODE}_${contestID}_${quizID}`
+  }
+  return `${STORAGE_KEY.QUIZ_CODE}_NaN_${quizID}`
+}
 export const GOOGLE_ANALYTICS_ID = 'UA-111499601-1'

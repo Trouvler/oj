@@ -50,6 +50,11 @@
           <Icon type="ios-photos"></Icon>
           {{$t('m.Problems')}}
         </VerticalMenu-item>
+        <VerticalMenu-item :disabled="contestMenuDisabled"
+                           :route="{name: 'contest-quiz-list', params: {contestID: contestID}}">
+          <Icon type="ios-photos"></Icon>
+          {{$t('m.Quizs')}}
+        </VerticalMenu-item>
 
         <VerticalMenu-item v-if="OIContestRealTimePermission"
                            :disabled="contestMenuDisabled"

@@ -20,6 +20,13 @@
       <el-menu-item index="/problem/batch_ops">{{$t('m.Export_Import_Problem')}}</el-menu-item>
 
     </el-submenu>
+    <el-submenu index="quiz" v-if="hasQuizPermission">
+      <template slot="title"><i class="el-icon-fa-bars"></i>{{$t('m.Quiz')}}</template>
+      <el-menu-item index="/quiz">{{$t('m.Quiz_List')}}</el-menu-item>
+      <el-menu-item index="/quiz/create">{{$t('m.Create_Quiz')}}</el-menu-item>
+      <el-menu-item index="/quiz/batch_ops">{{$t('m.Export_Import_Quiz')}}</el-menu-item>
+
+    </el-submenu>
     <el-submenu index="contest">
       <template slot="title"><i class="el-icon-fa-trophy"></i>{{$t('m.Contest')}}</template>
       <el-menu-item index="/contest">{{$t('m.Contest_List')}}</el-menu-item>
@@ -42,7 +49,7 @@
       this.currentPath = this.$route.path
     },
     computed: {
-      ...mapGetters(['user', 'isSuperAdmin', 'hasProblemPermission'])
+      ...mapGetters(['user', 'isSuperAdmin', 'hasProblemPermission', 'hasQuizPermission'])
     }
   }
 </script>

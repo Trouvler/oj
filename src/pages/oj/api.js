@@ -129,6 +129,24 @@ export default {
       params: params
     })
   },
+  getQuizTagList () {
+    return ajax('quiz/tags', 'get')
+  },
+  getQuizList (offset, limit, searchParams) {
+    let params = {
+      paging: true,
+      offset,
+      limit
+    }
+    Object.keys(searchParams).forEach((element) => {
+      if (searchParams[element]) {
+        params[element] = searchParams[element]
+      }
+    })
+    return ajax('quiz', 'get', {
+      params: params
+    })
+  },
   pickone () {
     return ajax('pickone', 'get')
   },
@@ -136,6 +154,13 @@ export default {
     return ajax('problem', 'get', {
       params: {
         problem_id: problemID
+      }
+    })
+  },
+  getQuiz (quizID) {
+    return ajax('quiz', 'get', {
+      params: {
+        quiz_id: quizID
       }
     })
   },
@@ -199,6 +224,21 @@ export default {
       }
     })
   },
+  getContestQuizList (contestId) {
+    return ajax('contest/quiz', 'get', {
+      params: {
+        contest_id: contestId
+      }
+    })
+  },
+  getContestQuiz (quizID, contestID) {
+    return ajax('contest/quiz', 'get', {
+      params: {
+        contest_id: contestID,
+        quiz_id: quizID
+      }
+    })
+  },
   submitCode (data) {
     return ajax('submission', 'post', {
       data
@@ -225,10 +265,11 @@ export default {
       }
     })
   },
-  submissionExists (problemID) {
+  submissionExists (problemID, quizID) {
     return ajax('submission_exists', 'get', {
       params: {
-        problem_id: problemID
+        problem_id: problemID,
+        quiz_id: quizID
       }
     })
   },

@@ -45,6 +45,23 @@
             </div>
           </div>
         </div>
+        <div id="quizs">
+          <div v-if="quizs.length">{{$t('m.List_Solved_Quizs')}}
+            <Poptip v-if="refreshVisible" trigger="hover" placement="right-start">
+              <Icon type="ios-help-outline"></Icon>
+              <div slot="content">
+                <p>If you find the following quiz id does not exist,<br> try to click the button.</p>
+                <Button type="info" @click="freshQuizDisplayID">regenerate</Button>
+              </div>
+            </Poptip>
+          </div>
+          <p v-else>{{$t('m.UserHomeIntro')}}</p>
+          <div class="btns">
+            <div class="quiz-btn" v-for="quizID of quizs" :key="quizID">
+              <Button type="ghost" @click="goQuiz(quizID)">{{quizID}}</Button>
+            </div>
+          </div>
+        </div>
         <div id="icons">
           <a :href="profile.github">
             <Icon type="social-github-outline" size="30"></Icon>
@@ -70,7 +87,8 @@
       return {
         username: '',
         profile: {},
-        problems: []
+        problems: [],
+        quizs: []
       }
     },
     mounted () {
@@ -84,6 +102,7 @@
           this.changeDomTitle({title: res.data.data.user.username})
           this.profile = res.data.data
           this.getSolvedProblems()
+          this.getSolvedquizs()
           let registerTime = time.utcToLocal(this.profile.user.create_time, 'YYYY-MM-D')
           console.log('The guy registered at ' + registerTime + '.')
         })
@@ -103,10 +122,34 @@
         ACProblems.sort()
         this.problems = ACProblems
       },
+      getSolvedQuizs () {
+        let ACMQuizs = this.profile.acm_quizs_status.quizs || {}
+        let OIQuizs = this.profile.oi_quizs_status.quizs || {}
+        // todo oi quizs
+        let ACQuizs = []
+        for (let quizs of [ACMQuizs, OIQuizs]) {
+          Object.keys(quizs).forEach(quizID => {
+            if (quizs[quizID]['status'] === 0) {
+              ACQuizs.push(quizs[quizID]['_id'])
+            }
+          })
+        }
+        ACQuizs.sort()
+        this.quizs = ACQuizs
+      },
       goProblem (problemID) {
         this.$router.push({name: 'problem-details', params: {problemID: problemID}})
       },
       freshProblemDisplayID () {
+        api.freshDisplayID().then(res => {
+          this.$success('Update successfully')
+          this.init()
+        })
+      },
+      goQuiz (quizID) {
+        this.$router.push({name: 'quiz-details', params: {quizID: quizID}})
+      },
+      freshQuizDisplayID () {
         api.freshDisplayID().then(res => {
           this.$success('Update successfully')
           this.init()

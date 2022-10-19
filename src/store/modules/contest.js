@@ -17,7 +17,8 @@ const state = {
     menu: true,
     chart: true,
     realName: false
-  }
+  },
+  contestQuizs: []
 }
 
 const getters = {
@@ -67,6 +68,14 @@ const getters = {
     }
     return !rootGetters.isAuthenticated
   },
+  quizSubmitDisabled: (state, getters, _, rootGetters) => {
+    if (getters.contestStatus === CONTEST_STATUS.ENDED) {
+      return true
+    } else if (getters.contestStatus === CONTEST_STATUS.NOT_START) {
+      return !getters.isContestAdmin
+    }
+    return !rootGetters.isAuthenticated
+  },
   passwordFormVisible: (state, getters) => {
     return state.contest.contest_type !== CONTEST_TYPE.PUBLIC && !state.access && !getters.isContestAdmin
   },
@@ -108,6 +117,9 @@ const mutations = {
   [types.CHANGE_CONTEST_PROBLEMS] (state, payload) {
     state.contestProblems = payload.contestProblems
   },
+  [types.CHANGE_CONTEST_QUIZS] (state, payload) {
+    state.contestQuizs = payload.contestQuizs
+  },
   [types.CHANGE_CONTEST_RANK_LIMIT] (state, payload) {
     state.rankLimit = payload.rankLimit
   },
@@ -117,6 +129,7 @@ const mutations = {
   [types.CLEAR_CONTEST] (state) {
     state.contest = {created_by: {}}
     state.contestProblems = []
+    state.contestQuizs = []
     state.access = false
     state.itemVisible = {
       menu: true,
@@ -164,6 +177,24 @@ const actions = {
         resolve(res)
       }, () => {
         commit(types.CHANGE_CONTEST_PROBLEMS, {contestProblems: []})
+      })
+    })
+  },
+  getContestQuizs ({commit, rootState}) {
+    return new Promise((resolve, reject) => {
+      api.getContestQuizList(rootState.route.params.contestID).then(res => {
+        res.data.data.sort((a, b) => {
+          if (a._id === b._id) {
+            return 0
+          } else if (a._id > b._id) {
+            return 1
+          }
+          return -1
+        })
+        commit(types.CHANGE_CONTEST_QUIZS, {contestQuizs: res.data.data})
+        resolve(res)
+      }, () => {
+        commit(types.CHANGE_CONTEST_QUIZS, {contestQuizs: []})
       })
     })
   },

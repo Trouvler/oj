@@ -214,6 +214,15 @@
               </el-select>
             </el-form-item>
           </el-col>
+          <el-col :span="12">
+            <el-form-item :label="$t('m.quiz_Permission')">
+              <el-select v-model="user.quiz_permission" :disabled="user.admin_type!=='Admin'">
+                <el-option label="None" value="None"></el-option>
+                <el-option label="Own" value="Own"></el-option>
+                <el-option label="All" value="All"></el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
           <el-col :span="8">
             <el-form-item :label="$t('m.Two_Factor_Auth')">
               <el-switch
@@ -329,7 +338,7 @@
         })
       },
       deleteUsers (ids) {
-        this.$confirm('Sure to delete the user? The associated resources created by this user will be deleted as well, like problem, contest, announcement, etc.', 'confirm', {
+        this.$confirm('Sure to delete the user? The associated resources created by this user will be deleted as well, like problem, contest, announcement, quiz, etc.', 'confirm', {
           type: 'warning'
         }).then(() => {
           api.deleteUsers(ids.join(',')).then(res => {
@@ -409,8 +418,10 @@
       'user.admin_type' () {
         if (this.user.admin_type === 'Super Admin') {
           this.user.problem_permission = 'All'
+          this.user.quiz_permission = 'All'
         } else if (this.user.admin_type === 'Regular User') {
           this.user.problem_permission = 'None'
+          this.user.quiz_permission = 'None'
         }
       },
       'uploadUsersCurrentPage' (page) {
